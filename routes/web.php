@@ -2,51 +2,50 @@
 
 use Illuminate\Support\Facades\Route;
 
-// Array di dati dei tuoi articoli
+// Array con i dati degli articoli
 $articles = [
     1 => [
-        'title' => 'Primo Articolo del Blog',
-        'category' => 'Tecnologia',
-        'content' => 'Questo è il contenuto dettagliato del primo articolo del blog.'
+        'title' => 'Come creare un Blog in Laravel',
+        'category' => 'Programmazione',
+        'content' => 'In questo articolo vediamo come gestire le rotte parametriche in Laravel passo dopo passo.'
     ],
     2 => [
-        'title' => 'Secondo Articolo del Blog',
-        'category' => 'Programmazione',
-        'content' => 'Questo è il contenuto dettagliato del secondo articolo del blog.'
+        'title' => 'Guida alle Named Routes',
+        'category' => 'Laravel',
+        'content' => 'Le rotte con nome permettono di generare URL in modo semplice e pulito all\'interno delle viste Blade.'
     ],
     3 => [
-        'title' => 'Terzo Articolo del Blog',
-        'category' => 'Laravel',
-        'content' => 'Questo è il contenuto dettagliato del terzo articolo del blog.'
+        'title' => 'Lavorare con gli Array di Dati',
+        'category' => 'PHP',
+        'content' => 'Prima di usare i database, possiamo simulare una fonte dati utilizzando un semplice array PHP.'
     ],
 ];
 
-// Pagina Homepage
+// 1. Homepage
 Route::get('/', function () {
     return view('welcome');
 })->name('homepage');
 
-// Pagina Chi siamo
+// 2. Chi Siamo
 Route::get('/chi-siamo', function () {
     return view('chi-siamo');
 })->name('about');
 
-// Pagina Servizi
+// 3. Servizi
 Route::get('/servizi', function () {
-    return view('servizi');
+    return view('contatti'); // o la vista che usi per i servizi
 })->name('services');
 
-// Pagina Elenco Articoli
-Route::get('/articoli', function () use ($articles) {
+// 4. Elenco Articoli del Blog
+Route::get('/blog', function () use ($articles) {
     return view('articles.index', ['articles' => $articles]);
 })->name('articles.index');
 
-// ROTTA PARAMETRICA: Pagina Dettaglio Articolo
-Route::get('/articolo/dettaglio/{id}', function ($id) use ($articles) {
+// 5. ROTTA PARAMETRICA (Dettaglio Articolo)
+Route::get('/blog/dettaglio/{id}', function ($id) use ($articles) {
     if (!array_key_exists($id, $articles)) {
         abort(404);
     }
 
-    $article = $articles[$id];
-    return view('articles.show', ['article' => $article]);
+    return view('articles.show', ['article' => $articles[$id]]);
 })->name('articles.show');
